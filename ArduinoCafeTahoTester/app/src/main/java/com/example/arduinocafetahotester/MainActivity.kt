@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.Surface
@@ -205,9 +207,9 @@ fun Running(
                 },
             text = "" + positionKmh + " km/h"
         )
-        TextButton(
+        Button(
             onClick = {
-                positionKmh -= 1.0f
+                positionKmh -= 5.0f
                 msg = "a" + positionKmh.roundToInt() + "b" + positionRpm.roundToInt() + "c" + 0
                 viewModel.send(msg)
             },
@@ -219,10 +221,13 @@ fun Running(
                     top.linkTo(gaugeKmhText.bottom, 24.dp)
                     width = Dimension.fillToConstraints
                 },
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = Color.Red
+            ),
         ) { Text(text = "-") }
-        TextButton(
+        Button(
             onClick = {
-                positionKmh += 1.0f
+                positionKmh += 5.0f
                 msg = "a" + positionKmh.roundToInt() + "b" + positionRpm.roundToInt() + "c" + 0
                 viewModel.send(msg)
             },
@@ -234,6 +239,9 @@ fun Running(
                     top.linkTo(gaugeKmhText.bottom, 24.dp)
                     width = Dimension.fillToConstraints
                 },
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = Color.Green
+            ),
         ) { Text(text = "+") }
         Slider(
             modifier = Modifier
@@ -262,12 +270,15 @@ fun Running(
                 },
             text = "" + positionRpm + " rpm"
         )
-        TextButton(
+        Button(
             onClick = {
-                positionRpm -= 1.0f
+                positionRpm -= 5.0f
                 msg = "a" + positionKmh.roundToInt() + "b" + positionRpm.roundToInt() + "c" + 0
                 viewModel.send(msg)
             },
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = Color.Red
+            ),
             modifier = Modifier
                 .padding(8.dp)
                 .constrainAs(minusRPM) {
@@ -277,12 +288,15 @@ fun Running(
                     width = Dimension.fillToConstraints
                 },
         ) { Text(text = "-") }
-        TextButton(
+        Button(
             onClick = {
-                positionRpm += 1.0f
+                positionRpm += 5.0f
                 msg = "a" + positionKmh.roundToInt() + "b" + positionRpm.roundToInt() + "c" + 0
                 viewModel.send(msg)
             },
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = Color.Green
+            ),
             modifier = Modifier
                 .padding(8.dp)
                 .constrainAs(plusRPM) {
