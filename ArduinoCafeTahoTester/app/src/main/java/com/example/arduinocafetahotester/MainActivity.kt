@@ -1,42 +1,31 @@
 package com.example.arduinocafetahotester
 
-import android.content.Context
-import android.hardware.usb.UsbDevice
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.Surface
-import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -47,18 +36,12 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.arduinocafetahotester.ui.theme.ArduinoCafeTahoTesterTheme
 import com.example.arduinocafetahotester.ui.theme.composables.ComposableLifecycle
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import me.aflak.arduino.Arduino
-import me.aflak.arduino.ArduinoListener
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 
@@ -74,13 +57,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ArduinoCafeTahoTesterTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background,
-
-                    ) {
-                    Content()
-                }
+                Content()
             }
         }
     }
@@ -92,6 +69,19 @@ fun Content() {
     val viewModel = getViewModel<MainActivityViewModel>(parameters = { parametersOf() })
 
     val state = viewModel.state.collectAsStateWithLifecycle().value
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colors.background,
+    ) {
+
+        MainScreen(state, viewModel)
+    }
+}
+
+
+@Composable
+fun MainScreen(state: MainActivityState, viewModel: MainActivityViewModel) {
 
     ComposableLifecycle { source, event ->
         if (event == Lifecycle.Event.ON_DESTROY) {
